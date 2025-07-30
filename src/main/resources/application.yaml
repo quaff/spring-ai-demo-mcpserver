@@ -12,4 +12,8 @@ spring.security.oauth2.authorizationserver.client.mcp-client.registration:
   client-authentication-methods: client_secret_basic
   authorization-grant-types: client_credentials
 
+rsa-keys:
+  public-key: classpath:keys/public.pem
+  private-key: classpath:keys/private.pem
+
 logging.level.web: TRACE
