@@ -6,17 +6,23 @@ spring.ai.mcp.server:
   name: my-weather-server
   version: 0.0.1
 
-spring.security.oauth2.authorizationserver.client.mcp-client:
-  registration:
-    client-id: mcp-client
-    client-secret: "{noop}mcp-secret"
-    client-authentication-methods: client_secret_basic
-    authorization-grant-types: client_credentials
-  token:
-    access-token-time-to-live: 1000d
+# as OAuth Authorization Server
+spring.security.oauth2.authorizationserver:
+  issuer: http://localhost:${server.port} # replace it with loadbalancer's host and port
+  client.mcp-client:
+    registration:
+      client-id: mcp-client
+      client-secret: "{noop}mcp-secret"
+      client-authentication-methods: client_secret_basic
+      authorization-grant-types: client_credentials
+    token:
+      access-token-time-to-live: 1000d
 
 rsa-keys:
   public-key: classpath:keys/public.pem
   private-key: classpath:keys/private.pem
+
+# as OAuth Resource Server
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://localhost:${server.port} # must be same as authorizationserver.issuer
 
 logging.level.web: TRACE
