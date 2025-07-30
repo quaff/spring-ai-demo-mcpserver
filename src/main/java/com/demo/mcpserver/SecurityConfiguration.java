@@ -13,6 +13,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -27,9 +28,11 @@ class SecurityConfiguration {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();
+		resolver.setAllowUriQueryParameter(true);
 		return http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
 			.with(authorizationServer(), Customizer.withDefaults())
-			.oauth2ResourceServer(resource -> resource.jwt(Customizer.withDefaults()))
+			.oauth2ResourceServer(resource -> resource.jwt(Customizer.withDefaults()).bearerTokenResolver(resolver))
 			.csrf(CsrfConfigurer::disable)
 			.cors(Customizer.withDefaults())
 			.build();
