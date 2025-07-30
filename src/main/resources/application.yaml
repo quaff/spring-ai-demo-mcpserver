@@ -6,11 +6,14 @@ spring.ai.mcp.server:
   name: my-weather-server
   version: 0.0.1
 
-spring.security.oauth2.authorizationserver.client.mcp-client.registration:
-  client-id: mcp-client
-  client-secret: "{noop}mcp-secret"
-  client-authentication-methods: client_secret_basic
-  authorization-grant-types: client_credentials
+spring.security.oauth2.authorizationserver.client.mcp-client:
+  registration:
+    client-id: mcp-client
+    client-secret: "{noop}mcp-secret"
+    client-authentication-methods: client_secret_basic
+    authorization-grant-types: client_credentials
+  token:
+    access-token-time-to-live: 1000d
 
 rsa-keys:
   public-key: classpath:keys/public.pem
