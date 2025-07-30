@@ -6,4 +6,10 @@ spring.ai.mcp.server:
   name: my-weather-server
   version: 0.0.1
 
+spring.security.oauth2.authorizationserver.client.mcp-client.registration:
+  client-id: mcp-client
+  client-secret: "{noop}mcp-secret"
+  client-authentication-methods: client_secret_basic
+  authorization-grant-types: client_credentials
+
 logging.level.web: TRACE

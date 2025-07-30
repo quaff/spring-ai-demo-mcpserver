@@ -1,5 +1,5 @@
 plugins {
-	id("org.springframework.boot").version("3.4.5")
+	id("org.springframework.boot").version("3.5.4")
 	id("io.spring.dependency-management").version("latest.release")
 	java
 }
@@ -21,6 +21,8 @@ repositories {
 dependencies {
 	implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0"))
 	implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 }
 
 tasks.withType<Test> {
