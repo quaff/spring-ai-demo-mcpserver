@@ -13,8 +13,21 @@ spring.security.oauth2.authorizationserver:
     registration:
       client-id: mcp-client
       client-secret: "{noop}mcp-secret"
-      client-authentication-methods: client_secret_basic
-      authorization-grant-types: client_credentials
+      client-authentication-methods:
+        - client_secret_basic
+        - none
+      authorization-grant-types:
+        - authorization_code
+        - client_credentials
+        - refresh_token
+      scopes:
+        - mcp
+      redirect-uris:
+        - http://127.0.0.1:8080/authorize/oauth2/code/authserver
+        - http://localhost:8080/authorize/oauth2/code/authserver
+        - http://localhost:6274/oauth/callback #MCP Inspector
+    require-authorization-consent: true
+    require-proof-key: true
     token:
       access-token-time-to-live: 1000d
 
@@ -25,4 +38,7 @@ rsa-keys:
 # as OAuth Resource Server
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://localhost:${server.port} # must be same as authorizationserver.issuer
 
-logging.level.web: TRACE
+#spring.security.oauth2.resourceserver.jwt.public-key-location: classpath:keys/public.pem
+
+logging.level.web: DEBUG
+logging.level.org.springframework.security: TRACE
