@@ -15,6 +15,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,15 +28,33 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import reactor.core.scheduler.Schedulers;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
+import java.util.function.Function;
 
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(SecurityConfiguration.RsaKeyProperties.class)
 class SecurityConfiguration {
+
+    static {
+        Function<Runnable, Runnable> decorator =
+                runnable -> {
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    return () -> {
+                        try {
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                            runnable.run();
+                        } finally {
+                            SecurityContextHolder.clearContext();
+                        }
+                    };
+                };
+        Schedulers.onScheduleHook("McpBoundedElasticHook", decorator);
+    }
 
     @Bean
     @Order(1)

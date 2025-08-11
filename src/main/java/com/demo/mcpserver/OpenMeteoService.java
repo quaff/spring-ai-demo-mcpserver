@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -24,6 +25,7 @@ public class OpenMeteoService {
     public String getWeatherForecastByLocation(
             @ToolParam(description = "纬度，例如：39.9042") String latitude,
             @ToolParam(description = "经度，例如：116.4074") String longitude) {
+        logger.info("Authentication: {}", SecurityContextHolder.getContext().getAuthentication());
         logger.info("getWeatherForecastByLocation({}, {})", latitude, longitude);
         try {
             String response = restClient.get()
