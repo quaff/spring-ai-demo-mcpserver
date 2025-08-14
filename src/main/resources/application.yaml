@@ -35,6 +35,19 @@ rsa-keys:
   public-key: classpath:keys/public.pem
   private-key: classpath:keys/private.pem
 
+spring.datasource:
+  name: ${spring.application.name}
+  url: jdbc:mysql://localhost:3306/demo?createDatabaseIfNotExist=true&serverTimezone=Asia/Shanghai&autoReconnectForPools=true&useUnicode=true&useServerPrepStmts=true&cachePrepStmts=true&tinyInt1isBit=false&socketTimeout=60000&sslMode=DISABLED&allowPublicKeyRetrieval=true
+  username: ${mysql.username:root}
+  password: ${mysql.password:}
+
+spring.sql.init:
+  schema-locations:
+    - "classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql"
+    - "classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql"
+  mode: always
+  continue-on-error: true
+
 # as OAuth Resource Server
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://localhost:${server.port} # must be same as authorizationserver.issuer
 
