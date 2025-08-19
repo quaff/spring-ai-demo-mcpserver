@@ -19,12 +19,9 @@ repositories {
 }
 
 dependencies {
-	implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0"))
+	implementation(platform("org.springframework.ai:spring-ai-bom:1.0.1"))
 	implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-	implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    runtimeOnly("com.mysql:mysql-connector-j")
 }
 
 tasks.withType<Test> {

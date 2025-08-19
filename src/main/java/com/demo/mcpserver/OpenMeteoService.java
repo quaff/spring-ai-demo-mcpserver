@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -47,6 +48,9 @@ public class OpenMeteoService {
     public String getAirQuality(
             @ToolParam(description = "纬度，例如：39.9042") String latitude,
             @ToolParam(description = "经度，例如：116.4074") String longitude) {
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof BearerTokenAuthentication auth) {
+            logger.info("Authentication: {} {}", auth.getName(), auth.getAuthorities());
+        }
         logger.info("getAirQuality({}, {})", latitude, longitude);
         // TODO
         return "当前位置（纬度：" + latitude + "，经度：" + longitude + "）的空气质量：\n" +

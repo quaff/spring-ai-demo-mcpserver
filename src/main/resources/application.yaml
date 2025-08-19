@@ -6,52 +6,11 @@ spring.ai.mcp.server:
   name: my-weather-server
   version: 0.0.1
 
-# as OAuth Authorization Server
-spring.security.oauth2.authorizationserver:
-  issuer: http://localhost:${server.port} # replace it with loadbalancer's host and port
-  client.mcp-client:
-    registration:
-      client-id: mcp-client
-      client-secret: "{noop}mcp-secret"
-      client-authentication-methods:
-        - client_secret_basic
-        - none
-      authorization-grant-types:
-        - authorization_code
-        - client_credentials
-        - refresh_token
-      scopes:
-        - mcp
-      redirect-uris:
-        - http://127.0.0.1:8080/authorize/oauth2/code/authserver
-        - http://localhost:8080/authorize/oauth2/code/authserver
-        - http://localhost:6274/oauth/callback #MCP Inspector
-    require-authorization-consent: true
-    require-proof-key: true
-    token:
-      access-token-time-to-live: 1000d
-
-rsa-keys:
-  public-key: classpath:keys/public.pem
-  private-key: classpath:keys/private.pem
-
-spring.datasource:
-  name: ${spring.application.name}
-  url: jdbc:mysql://localhost:3306/demo?createDatabaseIfNotExist=true&serverTimezone=Asia/Shanghai&autoReconnectForPools=true&useUnicode=true&useServerPrepStmts=true&cachePrepStmts=true&tinyInt1isBit=false&socketTimeout=60000&sslMode=DISABLED&allowPublicKeyRetrieval=true
-  username: ${mysql.username:root}
-  password: ${mysql.password:}
-
-spring.sql.init:
-  schema-locations:
-    - "classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql"
-    - "classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql"
-  mode: always
-  continue-on-error: true
-
-# as OAuth Resource Server
-spring.security.oauth2.resourceserver.jwt.issuer-uri: http://localhost:${server.port} # must be same as authorizationserver.issuer
-
-#spring.security.oauth2.resourceserver.jwt.public-key-location: classpath:keys/public.pem
+spring.security.oauth2.resourceserver:
+  opaquetoken:
+    introspection-uri: http://localhost:9000/oauth2/introspect
+    client-id: mcp-client
+    client-secret: mcp-secret
 
 logging.level.web: DEBUG
 logging.level.org.springframework.security: TRACE
