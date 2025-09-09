@@ -2,14 +2,14 @@ package com.demo.mcpserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
+import org.springaicommunity.mcp.annotation.McpTool;
+import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Service
+@Component
 public class OpenMeteoService {
 
     private final RestClient restClient;
@@ -22,10 +22,10 @@ public class OpenMeteoService {
                 .build();
     }
 
-    @Tool(description = "根据经纬度获取天气预报")
+    @McpTool(description = "根据经纬度获取天气预报")
     public String getWeatherForecastByLocation(
-            @ToolParam(description = "纬度，例如：39.9042") String latitude,
-            @ToolParam(description = "经度，例如：116.4074") String longitude) {
+            @McpToolParam(description = "纬度，例如：39.9042") String latitude,
+            @McpToolParam(description = "经度，例如：116.4074") String longitude) {
         logger.info("Authentication: {}", SecurityContextHolder.getContext().getAuthentication());
         logger.info("getWeatherForecastByLocation({}, {})", latitude, longitude);
         try {
@@ -44,10 +44,10 @@ public class OpenMeteoService {
         }
     }
 
-    @Tool(description = "根据经纬度获取空气质量信息")
+    @McpTool(description = "根据经纬度获取空气质量信息")
     public String getAirQuality(
-            @ToolParam(description = "纬度，例如：39.9042") String latitude,
-            @ToolParam(description = "经度，例如：116.4074") String longitude) {
+            @McpToolParam(description = "纬度，例如：39.9042") String latitude,
+            @McpToolParam(description = "经度，例如：116.4074") String longitude) {
         if (SecurityContextHolder.getContext().getAuthentication() instanceof BearerTokenAuthentication auth) {
             logger.info("Authentication: {} {}", auth.getName(), auth.getAuthorities());
         }

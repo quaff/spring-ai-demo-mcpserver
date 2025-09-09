@@ -16,10 +16,13 @@ repositories {
 	maven {
 		url = uri("https://repo.spring.io/milestone")
 	}
+    maven {
+        url = uri("https://repo.spring.io/snapshot")
+    }
 }
 
 dependencies {
-	implementation(platform("org.springframework.ai:spring-ai-bom:1.0.1"))
+	implementation(platform("org.springframework.ai:spring-ai-bom:1.1.0-SNAPSHOT"))
 	implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 }
