@@ -26,7 +26,9 @@ public class OpenMeteoService {
     public String getWeatherForecastByLocation(
             @McpToolParam(description = "纬度，例如：39.9042") String latitude,
             @McpToolParam(description = "经度，例如：116.4074") String longitude) {
-        logger.info("Authentication: {}", SecurityContextHolder.getContext().getAuthentication());
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof BearerTokenAuthentication auth) {
+            logger.info("Authentication: {} {}", auth.getName(), auth.getAuthorities());
+        }
         logger.info("getWeatherForecastByLocation({}, {})", latitude, longitude);
         try {
             String response = restClient.get()

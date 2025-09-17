@@ -19,6 +19,9 @@ repositories {
     maven {
         url = uri("https://repo.spring.io/snapshot")
     }
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots")
+    }
 }
 
 dependencies {
