@@ -1,5 +1,5 @@
 plugins {
-	id("org.springframework.boot").version("3.5.4")
+	id("org.springframework.boot").version("3.5.9")
 	id("io.spring.dependency-management").version("latest.release")
 	java
 }
@@ -8,7 +8,9 @@ group = "com.example.ai"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	version = 21
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
 
 repositories {
